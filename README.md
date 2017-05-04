@@ -1,2 +1,2 @@
-# grafana-dimension-table-plugin
+# Dimension Table
 Grafana table with configurable dimensions and calculations columns.
