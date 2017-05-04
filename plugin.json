@@ -1,0 +1,26 @@
+{
+  "type": "panel",
+  "name": "Dimension Table",
+  "id": "produbanbr-dimension-table-panel",
+
+  "info": {
+    "description": "Dimension Table panel for grafana",
+    "author": {
+      "name": "Produban Brasil",
+      "url": "http://produban.com.br"
+    },
+    "keywords": ["dimension", "pivot", "table", "panel"],
+    "logos": {
+      "small": "src/img/dimension.svg",
+      "large": "src/img/dimension.svg"
+    },
+    "version": "1.0.0",
+    "updated": "2017-04-25"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "3.x.x",
+    "plugins": [ ]
+  }
+}
+

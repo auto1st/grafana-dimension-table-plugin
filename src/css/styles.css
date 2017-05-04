@@ -1,0 +1,13 @@
+  .badge {
+    border: 1px solid #000;
+  }
+
+.badge-pill {
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 10rem;
+}
+
+.badge-info {
+  background-color: #5bc0de;
+}
