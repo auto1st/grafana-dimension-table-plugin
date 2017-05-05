@@ -110,13 +110,24 @@ transformers['json'] = {
       sortDir: 'asc'
     });
 
-    console.log(rows);
   }
 };
 
 function transformation(data, panel){
-  
+
+  /*
+  var _sort = TableModel.prototype.sort;
+  TableModel.prototype.sort = function(options){
+    if(!options.__custom){
+      _sort(options);
+    } else { 
+      console.log('sort override!');
+      console.log(options);
+    }
+  };
+  */
   var model = new TableModel();
+  //model.sort({col: 2, desc: false, __custom: true});
 
   if(!data || data.length === 0){
     return model;

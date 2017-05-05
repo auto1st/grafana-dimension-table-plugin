@@ -1,6 +1,17 @@
-  .badge {
-    border: 1px solid #000;
-  }
+/*classes to use on the Dimension Table*/
+
+.dt-dimension-table tr:hover td {
+  /*opacity: 0.5;*/
+  filter: brightness(85%);
+}
+
+.dt-first-dimension-row {
+  font-size: 120%;
+}
+
+.badge {
+  border: 1px solid #000;
+}
 
 .badge-pill {
   padding-right: 0.6em;

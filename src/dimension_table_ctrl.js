@@ -22,8 +22,8 @@ const panelDefaults = {
         value: null
       }
     }
-  ]
-
+  ],
+  sort: {col: 0, desc: false}
 };
 
 export class DimensionTableCtrl extends MetricsPanelCtrl {
@@ -71,6 +71,10 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
     this.render();
   }
 
+  toggleSort(column, columnIndex){
+  
+  }
+
   render(){
     this._table = transformation(this._dataRaw, this.panel);
     //this._table.sort
@@ -98,8 +102,6 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 
       var rootele = elem.find('.table-panel-scroll');
       rootele.css({'max-height': ctrl.height});
-
-      console.log('renderPanel');
 
     }
 

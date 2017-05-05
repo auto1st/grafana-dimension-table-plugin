@@ -52,8 +52,6 @@ export class Renderer {
     var rows = this.model.rows;
     var columns = this.model.columns;
 
-    console.log(columns);
-    
     for(var i = 0; i < rows.length; i++){
       var row = rows[i];
 
@@ -61,24 +59,32 @@ export class Renderer {
       for(var y = 0; y < columns.length; y++){
         var column = columns[y];
 
+        var styles  = '';
+        var inner   = '';
+        var classes = '';
         if(y < row._level){
-          result += '<td style="border-spacing: 0; border: none; background: none;">';
+          styles = 'border-spacing: 0; border: none; background: none;';
           if(i === 0){
-            result += '<div class="table-panel-width-hack">';
-            result += column.text;
-            result += '</div>';
+            inner  = '<div class="table-panel-width-hack">';
+            inner += column.text;
+            inner += '</div>';
           }
-          result += '</td>';
         } else {
-          result += '<td style="border-spacing: 0; border-top: 1px solid rgba(0,0,0,.5); border-bottom: none; border-right: none;">';
+          styles = 'border-spacing: 0; border-top: 1px solid rgba(0,0,0,.5); border-bottom: none; border-right: none;';
           if(i === 0){
-            result += '<div class="table-panel-width-hack">';
-            result += column.text;
-            result += '</div>';
+            inner += '<div class="table-panel-width-hack">';
+            inner += column.text;
+            inner += '</div>';
           }
-          result += this.valueOf(column, row);
-          result += '</td>';
+          inner += this.valueOf(column, row);
         }
+
+        //first dimension row
+        if(0 === row._level){
+          classes += 'dt-first-dimension-row';
+        }
+
+        result += '<td' + (styles !== '' ? ' style="' + styles + '"' : '') + (classes !== '' ? ' class="' + classes + '"' : '') + '>' + inner + '</td>';
       }
 
       result += '</tr>'
