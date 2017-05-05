@@ -4,6 +4,27 @@ import {calculations} from './calculations';
 import _ from 'lodash';
 import angular from 'angular';
 
+//creates a handler that listen to setter
+function listenTo(obj, updater){
+
+  var _handler = {
+    set: function(target, name, value){
+      target[name] = value;
+    
+      //call the function passing the property and value
+      updater(name, value);
+
+      return true;
+    },
+
+    get: function(target, name){
+      return target[name];
+    }
+  };
+
+  return new Proxy(obj, _handler);
+}
+
 export class DimensionTableEditorCtrl {
 
   constructor($scope, $q, $injector, uiSegmentSrv){
@@ -20,6 +41,39 @@ export class DimensionTableEditorCtrl {
     this.addColumnSegment = this.uiSegmentSrv.newPlusButton();
 
     this._columns = null;
+    
+    //if there are Calculations, link then with respective columns using a Proxy
+    //this is a need when changes are made on the title of the calculation
+    var _obj = {
+      name: 'Fábio'
+    };
+
+    var _obx = listenTo(_obj, function(property, value){
+      console.log(property + '=' + value);
+    });
+
+    _obx.name = 'Maria';
+    console.log('Editor');
+
+    var proxies = [];
+    var columns = this.panel.columns;
+    this.panel.calculations.map(function(calculation){
+      var column = columns.find(function(c){
+        return c.value === calculation.title;
+      });
+
+      var proxy = listenTo(calculation, function(property, value){
+        if('title' === property){
+          column.text = value;
+          column.value = value;
+        }
+      });
+
+      //the new array of proxies to calculations
+      proxies.push(proxy);
+    });
+
+    this.panel.calculations = proxies;
   }
 
   get transformers(){
@@ -115,7 +169,8 @@ export class DimensionTableEditorCtrl {
     var _handler = {
       set: function(target, name, value){
         target[name] = value;
-        
+    
+        //updates the column attributes
         if('title' === name){
           column.text = value;
           column.value = value;
@@ -130,7 +185,8 @@ export class DimensionTableEditorCtrl {
     };
    
     this.panel.columns.push(column);
-    this.panel.calculations.push(new Proxy(calculation, _handler));
+    var proxy = new Proxy(calculation, _handler);
+    this.panel.calculations.push(proxy);
   }
 
   removeCalculation(c){

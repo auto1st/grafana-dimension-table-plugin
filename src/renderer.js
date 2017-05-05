@@ -63,7 +63,7 @@ export class Renderer {
 
         if(y < row._level){
           result += '<td style="border-spacing: 0; border: none; background: none;">';
-          if(y === 0){
+          if(i === 0){
             result += '<div class="table-panel-width-hack">';
             result += column.text;
             result += '</div>';
@@ -71,7 +71,7 @@ export class Renderer {
           result += '</td>';
         } else {
           result += '<td style="border-spacing: 0; border-top: 1px solid rgba(0,0,0,.5); border-bottom: none; border-right: none;">';
-          if(y === 0){
+          if(i === 0){
             result += '<div class="table-panel-width-hack">';
             result += column.text;
             result += '</div>';
