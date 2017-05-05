@@ -2,7 +2,8 @@
 
 .dt-dimension-table tr:hover td {
   /*opacity: 0.5;*/
-  filter: brightness(85%);
+  /*filter: brightness(85%);*/
+  background-color: rgba(0,0,0,0.3);
 }
 
 .dt-first-dimension-row {
