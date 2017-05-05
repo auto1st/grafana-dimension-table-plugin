@@ -48,8 +48,7 @@
     "load-grunt-tasks": "^3.5.2",
     "mocha": "3.3.0",
     "prunk": "^1.3.0",
-    "q": "^1.5.0",
-    "uglify-js": "^2.4.16"
+    "q": "^1.5.0"
   },
   "dependencies": {
     "lodash": "^4.1.0",
