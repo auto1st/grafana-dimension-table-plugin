@@ -1,10 +1,16 @@
+import kbn from 'app/core/utils/kbn';
+
 import './css/styles.css!';
 
 export class Renderer {
-  constructor(panel, model, isTimezoneUtc, sanitize){
+  constructor(panel, model, sanitize, dashboard){
     this._panel = panel;
     this._model = model;
     this._sanitize = sanitize;
+    this._dashboard = dashboard;
+
+    this._formatters = [];
+
   }
 
   get panel() {
@@ -23,7 +29,70 @@ export class Renderer {
     this._model = m;
   }
 
-  valueOf(column, row){
+  get dashboard(){
+    return this._dashboard;
+  }
+
+  set dashboard(d){
+    this._dashboard = d;
+  }
+
+  newTemplate(template){
+    
+    if('link' === template.type){
+      var metadata = template.metadata;
+      var timerange = this.dashboard.time;
+
+      return function(value, row){
+        var _query = '?from=' + timerange.from + '&to=' + timerange.to;
+
+        for(var i = 0; i < metadata.queries.length; i++){
+          _query += '&' + metadata.queries[i].field + '=';
+
+          if('literal' === metadata.queries[i].value.source){
+            _query += metadata.queries[i].value.get;
+
+          } else if('column' === metadata.queries[i].value.source) {
+            if(row[metadata.queries[i].value.get]){
+              _query += row[metadata.queries[i].value.get];
+            } else {
+              _query += '';
+            }
+
+          } else {
+            throw {message: 'Unknown source type ' + metadata.queries[i].value.source};
+          }
+        }
+
+        var _value = '<a href="' + metadata.link + _query  + '">' + value + '</a>';
+        return '<span>' + _value + '</span>';
+      };
+
+    } else {
+      throw {message: 'Unknown template type ' + template.type};
+    }
+  }
+
+  templateOf(property, value, row, index){
+    if(this._formatters[index]){
+      return this._formatters[index](value, row);
+    }
+
+    for(var i = 0; i < this.panel.templates.length; i++){
+      var template = this.panel.templates[i];
+      var regex = kbn.stringToJsRegex(template.selector);
+
+      if(property.match(regex)){
+        var _processor = this.newTemplate(template);
+        this._formatters[index] = _processor;
+
+        return _processor(value, row);
+      }
+    }
+
+  }
+
+  valueOf(column, row, index){
    
     var property = column.value;
 
@@ -35,6 +104,14 @@ export class Renderer {
 
     if(row[property]){
       result = row[property];
+    }
+
+    if(result 
+       && result !== ''){
+      var _result = this.templateOf(property, result, row, index);
+      if(_result){
+        result = _result;
+      }
     }
 
     if(result !== '' 
@@ -76,7 +153,7 @@ export class Renderer {
             inner += column.text;
             inner += '</div>';
           }
-          inner += this.valueOf(column, row);
+          inner += this.valueOf(column, row, y);
         }
 
         //first dimension row

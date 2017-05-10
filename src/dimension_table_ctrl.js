@@ -12,17 +12,8 @@ const panelDefaults = {
   transform: 'json',
   columns: [],
   dimensions: [],
-  calculations: [
-    {
-      type: 'count',
-      title: null,
-      if: {
-        column: null,
-        condition: null,
-        value: null
-      }
-    }
-  ],
+  calculations: [],
+  templates:[],
   sort: {col: 0, desc: false}
 };
 
@@ -93,7 +84,7 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
       elem.css({'font-size': panel.fontSize});
       elem.parents('.panel').addClass('table-panel-wrapper');
   
-      var renderer = new Renderer(panel, data, ctrl.dashboard.isTimezoneUtc(), ctrl.$sanitize);
+      var renderer = new Renderer(panel, data, ctrl.$sanitize, ctrl.dashboard);
       var html = renderer.render(0);
 
       var tbody = elem.find('tbody');

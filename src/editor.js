@@ -1,6 +1,9 @@
 import {transformers} from './transformers';
 import {conditions} from './conditions';
 import {calculations} from './calculations';
+import {templates} from './templates';
+import {templateDefaults} from './templates';
+
 import _ from 'lodash';
 import angular from 'angular';
 
@@ -36,6 +39,7 @@ export class DimensionTableEditorCtrl {
     this._transformers = transformers;
     this._conditions = conditions;
     this._calculations = calculations;
+    this._templates = templates;
     this.panelCtrl= $scope.ctrl;
     this.panel = this.panelCtrl.panel;
     this.addColumnSegment = this.uiSegmentSrv.newPlusButton();
@@ -44,17 +48,6 @@ export class DimensionTableEditorCtrl {
     
     //if there are Calculations, link then with respective columns using a Proxy
     //this is a need when changes are made on the title of the calculation
-    var _obj = {
-      name: 'Fábio'
-    };
-
-    var _obx = listenTo(_obj, function(property, value){
-      console.log(property + '=' + value);
-    });
-
-    _obx.name = 'Maria';
-    console.log('Editor');
-
     var proxies = [];
     var columns = this.panel.columns;
     this.panel.calculations.map(function(calculation){
@@ -98,6 +91,14 @@ export class DimensionTableEditorCtrl {
 
   set calculations(c){
     this._calculations = c;
+  }
+
+  get templates(){
+    return this._templates;
+  }
+
+  set templates(t){
+    this._template = t;
   }
 
   getColumns() {
@@ -197,6 +198,26 @@ export class DimensionTableEditorCtrl {
     });
 
     this.panel.columns = _.without(this.panel.columns, found);
+    this.render();
+  }
+
+  addTemplate(){
+    var template = angular.copy(templateDefaults);
+    this.panel.templates.push(template);
+  }
+
+  removeTemplate(t){
+    this.panel.templates = _.without(this.panel.templates, t);
+    this.render();
+  }
+
+  addQuery(template){
+    var query = angular.copy(templateDefaults.metadata.queries[0]);
+    template.metadata.queries.push(query);
+  }
+
+  removeQuery(q, template){
+    template.metadata.queries = _.without(template.metadata.queries, q);
     this.render();
   }
 
