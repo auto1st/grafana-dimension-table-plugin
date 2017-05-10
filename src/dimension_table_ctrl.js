@@ -140,6 +140,55 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
      	}
 		});
 
+    //campos que sempre devem existir no bean
+    var beanDefaults = {
+      release_code: '',
+      release_resumo: '',
+      release_data_inicial: '',
+      release_data_final: '',
+      sigla_code: '',
+      sigla_nome: '',
+      projeto_code: '',
+      projeto_nome: '',
+      projeto_resumo: '',
+      projeto_data_inicial: '',
+      projeto_data_final: '',
+      produto_code: '',
+      produto_nome: '',
+      produto_descricao: '',
+      canal_code: '',
+      canal_nome: ''
+    };
+
+    //Para datapoint, fazer
+    var datapoints = this._dataRaw[0].datapoints;
+    for(var i = 0; i < datapoints.length; i++){
+      //vamos Processar Release
+      //
+
+      var bean = datapoints[i].bean;
+      
+      //buscar sigla na lista de releases utilizando o método find
+      var release = release_list.find(function(elem, index){
+        if(elem.siglas[0]){
+          return elem.siglas[0].name === bean.plugin_system;
+        }
+
+        return false;
+      });
+
+      //aplicar propriedades padrão
+      _.defaults(bean, beanDefaults);
+
+      //se found estiver preenchido, então encontramos
+      if(release){
+        bean.release_code = release.numero;
+        bean.release_data_inicial = release.data_inicial;
+        bean.release_data_final = release.data_final;
+      }
+    }
+    
+
 		this.render();
   }
 
