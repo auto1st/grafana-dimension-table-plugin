@@ -78,55 +78,68 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
       success: function(result){
         token = result.token;
       }
-    });
+    })
 
-    //agora as chamadas ficam independentes, pois todas serão síncronas, 
-    //tendeu?
-    //so de colocar aquele async false resolve? 
-    //sim
-    // ai as chamads subsequentes sao sincronas?
-    //sim
-    // pode salvar e rodar?
-    //vou subir o docker para vc, blz?
-    //nervous_wilson (nome do docker)
-    //Produto
-		var product_list = null;
+		// Produto
+		var produto_list = null;
 		$.ajax({
 			method: 'GET',
-	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Produto',
-	    headers: {'X-Access-Token': token},
-      success: function(result){
-        product_list = result;
-      }
-      console.log(product_list);
+	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Produto',
+	   	headers: {'X-Access-Token': token},
+     	success: function(result){
+       	produto_list = result;
+     		console.log(produto_list);
+     	}
 		});
-    /** 
-    $.ajax({
-			method: 'POST',
-	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/sign-in',
-	    data: {username: "admin", password: "admin"},
-		}).done(function(result){
-      //todas chamadas nesse escopo
-      //
-      //Produto
-			$.ajax({
-				method: 'GET',
-	    	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Produto',
-	    	headers: {'X-Access-Token': token},
-			}).done(function(result){
 
-				console.log(result);
-			});
-      **/
+    //Projeto
+		var projeto_list = null;
+		$.ajax({
+			method: 'GET',
+	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Projeto',
+	   	headers: {'X-Access-Token': token},
+     	success: function(result){
+       	projeto_list = result;
+     		console.log(projeto_list);
+     	}
+		});
 
-      //Projeto
-      
-      //Release
+    //Release
+		var release_list = null;
+		$.ajax({
+			method: 'GET',
+	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Release',
+	   	headers: {'X-Access-Token': token},
+     	success: function(result){
+       	release_list = result;
+     		console.log(release_list);
+     	}
+		});
 
-      //Sigla
+    //Sigla
+		var sigla_list = null;
+		$.ajax({
+			method: 'GET',
+	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Sigla',
+	   	headers: {'X-Access-Token': token},
+     	success: function(result){
+       	sigla_list = result;
+     		console.log(sigla_list);
+     	}
+		});
 
-      //Canal
-    
+    //Canal
+		var canal_list = null;
+		$.ajax({
+			method: 'GET',
+	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Canal',
+	   	headers: {'X-Access-Token': token},
+     	success: function(result){
+       	canal_list = result;
+     		console.log(canal_list);
+     	}
+		});
+
 		this.render();
   }
 
