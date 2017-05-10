@@ -187,14 +187,28 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 
       //se found estiver preenchido, então encontramos
       if(release){
-        console.log(release);
         bean.release_code = release.numero;
         bean.release_data_inicial = release.data_inicial;
         bean.release_data_final = release.data_final;
       }
+
+      //buscar id do projeto na lista de projeto
+      var projeto = projeto_list.find(function(elem, index){
+        return elem.id === release.projeto.id;
+      });
+      
+      if(projeto) {
+        bean.projeto_code = projeto.id; //fui fazer o curl na api :D
+        bean.projeto_data_inicial = projeto.data_inicial;
+        bean.projeto_data_final = projeto.data_final;
+        bean.projeto_nome = projeto.nome;
+        bean.projeto_resumo = projeto.resumo; //o resumo nao é obrigatorio , tem projeto sem.
+        console.log(projeto);
+      }
     }
-    
+
     console.log(this._dataRaw);
+
 
 		this.render();
   }
