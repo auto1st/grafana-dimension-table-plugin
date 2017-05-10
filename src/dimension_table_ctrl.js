@@ -7,6 +7,8 @@ import {Renderer} from './renderer';
 
 import DataFrame from "./external/dataframe";
 
+import $ from 'jquery';
+
 const panelDefaults = {
   
   transform: 'json',
@@ -63,7 +65,42 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 
   onDataReceived(dataList) {
     this._dataRaw = dataList;
-    this.render();
+    //Start here... Get and Save Data-Entry API locally.
+
+    var token = null;
+
+		var product_list = $.ajax({
+			method: 'POST',
+	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/sign-in',
+	    data: {username: "admin", password: "admin"},
+		}).done(function(result){
+			$.ajax({
+				method: 'GET',
+	    	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Produto',
+	    	headers: {'X-Access-Token': result.token},
+			}).done(function(result){
+				console.log(result);
+			});
+		});
+
+		console.log(product_list);
+
+		var release_list = $.ajax({
+			method: 'POST',
+	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/sign-in',
+	    data: {username: "admin", password: "admin"},
+		}).done(function(result){
+			$.ajax({
+				method: 'GET',
+	    	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Release',
+	    	headers: {'X-Access-Token': result.token},
+			}).done(function(result){
+				console.log(result);
+			});
+		
+		console.log(release_list);
+		
+		this.render();
   }
 
   onDataError(err){
