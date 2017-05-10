@@ -161,7 +161,6 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
       produto_code: '',
       produto_nome: '',
       produto_descricao: '',
-      produto_canal: '',
       canal_code: '',
       canal_nome: ''
     };
@@ -218,6 +217,19 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
           bean.produto_nome = produto.nome;
           bean.produto_descricao = produto.descricao;
           console.log(produto);
+        }
+
+        var canal = canal_list.find(function(elem, index) {
+          if(produto.canais[0]){
+            return elem.id === produto.canais[0].id;
+          }
+
+          return false;
+        });
+
+        if(canal) {
+          bean.canal_code = canal.code;
+          bean.canal_nome = canal.nome;
         }
         
       }
