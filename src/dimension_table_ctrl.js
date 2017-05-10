@@ -86,6 +86,7 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 			method: 'GET',
 	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Produto',
 	   	headers: {'X-Access-Token': token},
+      async: false,
      	success: function(result){
        	produto_list = result;
      		console.log(produto_list);
@@ -98,6 +99,7 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 			method: 'GET',
 	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Projeto',
 	   	headers: {'X-Access-Token': token},
+      async: false,
      	success: function(result){
        	projeto_list = result;
      		console.log(projeto_list);
@@ -110,6 +112,7 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 			method: 'GET',
 	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Release',
 	   	headers: {'X-Access-Token': token},
+      async: false,
      	success: function(result){
        	release_list = result;
      		console.log(release_list);
@@ -122,6 +125,7 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 			method: 'GET',
 	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Sigla',
 	   	headers: {'X-Access-Token': token},
+      async: false,
      	success: function(result){
        	sigla_list = result;
      		console.log(sigla_list);
@@ -134,6 +138,7 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 			method: 'GET',
 	   	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Canal',
 	   	headers: {'X-Access-Token': token},
+      async: false,
      	success: function(result){
        	canal_list = result;
      		console.log(canal_list);
@@ -182,12 +187,14 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 
       //se found estiver preenchido, então encontramos
       if(release){
+        console.log(release);
         bean.release_code = release.numero;
         bean.release_data_inicial = release.data_inicial;
         bean.release_data_final = release.data_final;
       }
     }
     
+    console.log(this._dataRaw);
 
 		this.render();
   }
