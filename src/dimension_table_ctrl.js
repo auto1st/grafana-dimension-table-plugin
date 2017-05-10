@@ -69,37 +69,64 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
 
     var token = null;
 
-		var product_list = $.ajax({
+    //Perform login
+    $.ajax({
+	    method: 'POST',
+	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/sign-in',
+	    data: {username: "admin", password: "admin"},
+      async: false,
+      success: function(result){
+        token = result.token;
+      }
+    });
+
+    //agora as chamadas ficam independentes, pois todas serão síncronas, 
+    //tendeu?
+    //so de colocar aquele async false resolve? 
+    //sim
+    // ai as chamads subsequentes sao sincronas?
+    //sim
+    // pode salvar e rodar?
+    //vou subir o docker para vc, blz?
+    //nervous_wilson (nome do docker)
+    //Produto
+		var product_list = null;
+		$.ajax({
+			method: 'GET',
+	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Produto',
+	    headers: {'X-Access-Token': token},
+      success: function(result){
+        product_list = result;
+      }
+      console.log(product_list);
+		});
+    /** 
+    $.ajax({
 			method: 'POST',
 	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/sign-in',
 	    data: {username: "admin", password: "admin"},
 		}).done(function(result){
+      //todas chamadas nesse escopo
+      //
+      //Produto
 			$.ajax({
 				method: 'GET',
 	    	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Produto',
-	    	headers: {'X-Access-Token': result.token},
+	    	headers: {'X-Access-Token': token},
 			}).done(function(result){
+
 				console.log(result);
 			});
-		});
+      **/
 
-		console.log(product_list);
+      //Projeto
+      
+      //Release
 
-		var release_list = $.ajax({
-			method: 'POST',
-	    url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/sign-in',
-	    data: {username: "admin", password: "admin"},
-		}).done(function(result){
-			$.ajax({
-				method: 'GET',
-	    	url: 'https://dataentry-rm-dev.appls.cmpn.paas.gsnetcloud.corp/api/entity/Release',
-	    	headers: {'X-Access-Token': result.token},
-			}).done(function(result){
-				console.log(result);
-			});
-		
-		console.log(release_list);
-		
+      //Sigla
+
+      //Canal
+    
 		this.render();
   }
 
