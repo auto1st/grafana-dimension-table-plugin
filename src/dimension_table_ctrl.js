@@ -161,6 +161,7 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
       produto_code: '',
       produto_nome: '',
       produto_descricao: '',
+      produto_canal: '',
       canal_code: '',
       canal_nome: ''
     };
@@ -185,25 +186,40 @@ export class DimensionTableCtrl extends MetricsPanelCtrl {
       //aplicar propriedades padrão
       _.defaults(bean, beanDefaults);
 
+      var projeto;
+
       //se found estiver preenchido, então encontramos
       if(release){
         bean.release_code = release.numero;
         bean.release_data_inicial = release.data_inicial;
         bean.release_data_final = release.data_final;
+      
+        //buscar id do projeto na lista de projeto
+        projeto = projeto_list.find(function(elem, index){
+          return elem.id === release.projeto.id;
+        });
       }
 
-      //buscar id do projeto na lista de projeto
-      var projeto = projeto_list.find(function(elem, index){
-        return elem.id === release.projeto.id;
-      });
-      
+      //se projeto preenchido, ele foi encontrado 
       if(projeto) {
-        bean.projeto_code = projeto.id; //fui fazer o curl na api :D
+        bean.projeto_code = projeto.id;
         bean.projeto_data_inicial = projeto.data_inicial;
         bean.projeto_data_final = projeto.data_final;
         bean.projeto_nome = projeto.nome;
-        bean.projeto_resumo = projeto.resumo; //o resumo nao é obrigatorio , tem projeto sem.
-        console.log(projeto);
+        bean.projeto_resumo = projeto.resumo;
+
+        //buscar id do produto na lista de produto
+        var produto = produto_list.find(function(elem, index){
+          return elem.id === projeto.produto.id; //get na api :D
+        });
+
+        if(produto) {
+          bean.produto_code = produto.id;
+          bean.produto_nome = produto.nome;
+          bean.produto_descricao = produto.descricao;
+          console.log(produto);
+        }
+        
       }
     }
 
