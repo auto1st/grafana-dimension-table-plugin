@@ -117,6 +117,7 @@ export class Renderer {
     if(result !== '' 
        && column.type 
        && column.type === 'calculation'){
+      //temporary css class
       result = '<div class="badge badge-pill badge-info" style="width: 100%; text-align: center;">' + result + '</div>';
     }
 
