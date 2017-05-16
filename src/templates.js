@@ -10,7 +10,8 @@ var templateDefaults = {
         field: 'field_name',
         value: {
           source: 'literal',
-          get: null
+          get: null,
+          default: ''
         }
       }
     ]

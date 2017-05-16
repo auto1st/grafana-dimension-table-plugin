@@ -110,6 +110,7 @@ transformers['json'] = {
       sortDir: 'asc'
     });
 
+    console.log(model.rows);
   }
 };
 

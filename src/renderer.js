@@ -56,7 +56,7 @@ export class Renderer {
             if(row[metadata.queries[i].value.get]){
               _query += row[metadata.queries[i].value.get];
             } else {
-              _query += '';
+              _query += metadata.queries[i].value.default;
             }
 
           } else {
@@ -74,6 +74,12 @@ export class Renderer {
   }
 
   templateOf(property, value, row, index){
+
+    //mega, super, master, blaster, plus, advanced workaround
+    if(row._level !== 5){
+      return null;
+    }
+
     if(this._formatters[index]){
       return this._formatters[index](value, row);
     }
@@ -89,7 +95,7 @@ export class Renderer {
         return _processor(value, row);
       }
     }
-
+    
   }
 
   valueOf(column, row, index){

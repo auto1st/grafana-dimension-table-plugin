@@ -256,6 +256,18 @@
               ng-model-onblur>
           </div>
         </div>
+
+        <div class="gf-form-inline" ng-if="query.value.source === 'column'">
+          <div class="gf-form offset-width-15">
+            <label class="gf-form-label width-10">Default value<tip>To apply when there is no value from column</tip></label>
+            <input 
+              type="text"
+              class="gf-form-input width-21"
+              ng-model="query.value.default"
+              ng-change="editor.render()"
+              ng-model-onblur>
+          </div>
+        </div>
       </div>
 
     </div>
